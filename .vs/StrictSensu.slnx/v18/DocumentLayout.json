@@ -1,0 +1,133 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|c:\\users\\3346.adm-ucdb\\desktop\\documentacaolayout\\strictsensu\\strictsensu\\components\\pages\\disiciplina\\disciplina.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|solutionrelative:strictsensu\\components\\pages\\disiciplina\\disciplina.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|c:\\users\\3346.adm-ucdb\\desktop\\documentacaolayout\\strictsensu\\strictsensu\\components\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|solutionrelative:strictsensu\\components\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|c:\\users\\3346.adm-ucdb\\desktop\\documentacaolayout\\strictsensu\\strictsensu\\components\\pages\\oferecimento\\oferecimento.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|solutionrelative:strictsensu\\components\\pages\\oferecimento\\oferecimento.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|c:\\users\\3346.adm-ucdb\\desktop\\documentacaolayout\\strictsensu\\strictsensu\\components\\pages\\grade\\grade.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|solutionrelative:strictsensu\\components\\pages\\grade\\grade.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|c:\\users\\3346.adm-ucdb\\desktop\\documentacaolayout\\strictsensu\\strictsensu\\components\\pages\\curso\\curso.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|solutionrelative:strictsensu\\components\\pages\\curso\\curso.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|c:\\users\\3346.adm-ucdb\\desktop\\documentacaolayout\\strictsensu\\strictsensu\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|solutionrelative:strictsensu\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|c:\\users\\3346.adm-ucdb\\desktop\\documentacaolayout\\strictsensu\\strictsensu\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D9669BEA-2E6D-A2A4-9EA8-353E1E5B60BA}|StrictSensu\\StrictSensu.csproj|solutionrelative:strictsensu\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Weather.razor",
+              "DocumentMoniker": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Weather.razor",
+              "RelativeDocumentMoniker": "StrictSensu\\Components\\Pages\\Weather.razor",
+              "ToolTip": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Weather.razor",
+              "RelativeToolTip": "StrictSensu\\Components\\Pages\\Weather.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T17:39:22.452Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Oferecimento.razor",
+              "DocumentMoniker": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Oferecimento\\Oferecimento.razor",
+              "RelativeDocumentMoniker": "StrictSensu\\Components\\Pages\\Oferecimento\\Oferecimento.razor",
+              "ToolTip": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Oferecimento\\Oferecimento.razor",
+              "RelativeToolTip": "StrictSensu\\Components\\Pages\\Oferecimento\\Oferecimento.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T17:36:28.412Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Grade.razor",
+              "DocumentMoniker": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Grade\\Grade.razor",
+              "RelativeDocumentMoniker": "StrictSensu\\Components\\Pages\\Grade\\Grade.razor",
+              "ToolTip": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Grade\\Grade.razor",
+              "RelativeToolTip": "StrictSensu\\Components\\Pages\\Grade\\Grade.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T17:36:07.428Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Disciplina.razor",
+              "DocumentMoniker": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Disiciplina\\Disciplina.razor",
+              "RelativeDocumentMoniker": "StrictSensu\\Components\\Pages\\Disiciplina\\Disciplina.razor",
+              "ToolTip": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Disiciplina\\Disciplina.razor",
+              "RelativeToolTip": "StrictSensu\\Components\\Pages\\Disiciplina\\Disciplina.razor",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAAAJkAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T17:35:44.319Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Curso.razor",
+              "DocumentMoniker": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Curso\\Curso.razor",
+              "RelativeDocumentMoniker": "StrictSensu\\Components\\Pages\\Curso\\Curso.razor",
+              "ToolTip": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Pages\\Curso\\Curso.razor",
+              "RelativeToolTip": "StrictSensu\\Components\\Pages\\Curso\\Curso.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T17:35:21.346Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "NavMenu.razor",
+              "DocumentMoniker": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Layout\\NavMenu.razor",
+              "RelativeDocumentMoniker": "StrictSensu\\Components\\Layout\\NavMenu.razor",
+              "ToolTip": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Layout\\NavMenu.razor",
+              "RelativeToolTip": "StrictSensu\\Components\\Layout\\NavMenu.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T17:19:21.768Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Layout\\MainLayout.razor",
+              "RelativeDocumentMoniker": "StrictSensu\\Components\\Layout\\MainLayout.razor",
+              "ToolTip": "C:\\Users\\3346.ADM-UCDB\\Desktop\\DocumentacaoLayout\\StrictSensu\\StrictSensu\\Components\\Layout\\MainLayout.razor",
+              "RelativeToolTip": "StrictSensu\\Components\\Layout\\MainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-06-11T17:16:26.899Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+﻿@page "/disciplina/disciplina"
+
+
+    <br>
+    <br />
+  <h2>Tela de Disciplinas</h2>
+    <br />
+@using System.Net.Http.Json
+
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<Element, bool>(FilterFunc)"
+          @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
+          OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+          RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
+    <ToolBarContent>
+        <MudButton Variant="Variant.Filled" Class="me-4">Voltar</MudButton>
+       
+        <MudTextField Style="left" @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudSpacer />
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Summarize" Color="Color.Info" Size="Size.Small">Cadastrar</MudButton>
+    </ToolBarContent>
+    <ColGroup>
+        @if (applyButtonPosition.DisplayApplyButtonAtStart() || (editButtonPosition.DisplayEditButtonAtStart() && editTrigger == TableEditTrigger.EditButton))
+        {
+            <col style="width:50px;" />
+        }
+        <col style="width:50px;" />
+        <col style="width:80px;" />
+        <col style="width:50%;" />
+        <col />
+        <col />
+        @if (applyButtonPosition.DisplayApplyButtonAtEnd() || (editButtonPosition.DisplayEditButtonAtEnd() && editTrigger == TableEditTrigger.EditButton))
+        {
+            <col style="width:50px;" />
+        }
+    </ColGroup>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Codigo)">Código</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Disciplina)">Disciplina</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Element, object>(x => x.Abreviado)">Nome Abreviado</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Creditos)">Créditos</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Ativo)">Ativo</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nr">@context.Codigo</MudTd>
+        <MudTd DataLabel="Sign">@context.Disciplina</MudTd>
+        <MudTd DataLabel="Name">@context.Abreviado</MudTd>
+        <MudTd DataLabel="Position">@context.Creditos</MudTd>
+        <MudTd DataLabel="Molar mass">@context.Ativo</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="Codigo">@context.Codigo</MudTd>
+        <MudTd DataLabel="Disciplina">
+            <MudTextField @bind-Value="context.Disciplina" Required />
+        </MudTd>
+        <MudTd DataLabel="Abreviado">
+            <MudTextField @bind-Value="context.Abreviado" Required />
+        </MudTd>
+        <MudTd DataLabel="Creditos">
+            <MudNumericField @bind-Value="context.Creditos" Required Min="1" />
+        </MudTd>
+        <MudTd DataLabel="Ativo">
+            <MudTextField @bind-Value="context.Ativo" Required />
+        </MudTd>
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>
+
+
+
+
+
+
+@code {
+    // Injeta o Snackbar caso você use a notificação no OnCommitEditClick
+    [Inject] private ISnackbar Snackbar { get; set; }
+
+    private List<string> editEvents = new();
+    private bool dense = false;
+    private bool hover = true;
+    private bool ronly = false;
+    private bool canCancelEdit = false;
+    private bool blockSwitch = false;
+    private string searchString = "";
+    private Element selectedItem1 = null;
+    private Element elementBeforeEdit;
+    private HashSet<Element> selectedItems1 = new HashSet<Element>();
+    private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
+    private TableEditButtonPosition editButtonPosition = TableEditButtonPosition.End;
+    private TableEditTrigger editTrigger = TableEditTrigger.RowClick;
+    private IEnumerable<Element> Elements = new List<Element>();
+
+    // Definição da classe local para o modelo de dados
+    public class Element
+    {
+        public int Codigo { get; set; }
+        public string Disciplina { get; set; }
+        public string Abreviado { get; set; }
+        public int Creditos { get; set; }
+        public bool Ativo { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        // Dados locais estáticos para simular o retorno da API
+        Elements = new List<Element>
+        {
+            new Element { Codigo = 1, Disciplina = "Estudos Críticos", Abreviado = "Hydrogen", Creditos = 1, Ativo = false },
+            new Element { Codigo = 2, Disciplina = "He", Abreviado = "Helium", Creditos = 18, Ativo = true },
+            new Element { Codigo = 3, Disciplina = "Li", Abreviado = "Lithium", Creditos = 1, Ativo = true },
+            new Element { Codigo = 4, Disciplina = "Be", Abreviado = "Beryllium", Creditos = 2, Ativo = true },
+            new Element { Codigo = 5, Disciplina = "B", Abreviado = "Boron", Creditos = 13, Ativo = true },
+            new Element { Codigo = 6, Disciplina = "C", Abreviado = "Carbon", Creditos = 14, Ativo = true },
+            new Element { Codigo = 7, Disciplina = "N", Abreviado = "Nitrogen", Creditos = 15, Ativo = true},
+            new Element { Codigo = 8, Disciplina = "O", Abreviado = "Oxygen", Creditos = 16, Ativo = true }
+        };
+    }
+
+    private void ClearEventLog()
+    {
+        editEvents.Clear();
+    }
+
+    private void AddEditionEvent(string message)
+    {
+        editEvents.Add(message);
+        StateHasChanged();
+    }
+
+    private void BackupItem(object element)
+    {
+        elementBeforeEdit = new()
+        {
+            Disciplina = ((Element)element).Disciplina,
+            Abreviado = ((Element)element).Abreviado,
+            Creditos = ((Element)element).Creditos,
+            Ativo = ((Element)element).Ativo
+        };
+        AddEditionEvent($"RowEditPreview event: made a backup of Element {((Element)element).Disciplina}");
+    }
+
+    private void ItemHasBeenCommitted(object element)
+    {
+        AddEditionEvent($"RowEditCommit event: Changes to Element {((Element)element).Disciplina} committed");
+    }
+
+    private void ResetItemToOriginalValues(object element)
+    {
+        ((Element)element).Disciplina = elementBeforeEdit.Disciplina;
+        ((Element)element).Abreviado = elementBeforeEdit.Abreviado;
+        ((Element)element).Creditos = elementBeforeEdit.Creditos;
+        ((Element)element).Ativo = elementBeforeEdit.Ativo;
+        AddEditionEvent($"RowEditCancel event: Editing of Element {((Element)element).Disciplina} canceled");
+    }
+
+    private bool FilterFunc(Element element)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Disciplina.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Abreviado.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.Disciplina} {element.Abreviado} {element.Creditos}".Contains(searchString))
+            return true;
+        return false;
+    }
+}
