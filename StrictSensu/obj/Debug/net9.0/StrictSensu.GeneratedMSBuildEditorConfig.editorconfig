@@ -54,12 +54,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/3346.ADM-UCDB/Desktop/DocumentacaoLayout/StrictSensu/StrictSensu/Components/Pages/Grade/FormGrade.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHcmFkZVxGb3JtR3JhZGUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/3346.ADM-UCDB/Desktop/DocumentacaoLayout/StrictSensu/StrictSensu/Components/Pages/Grade/Grade.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xHcmFkZVxHcmFkZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/3346.ADM-UCDB/Desktop/DocumentacaoLayout/StrictSensu/StrictSensu/Components/Pages/Home.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xIb21lLnJhem9y
+[C:/Users/3346.ADM-UCDB/Desktop/DocumentacaoLayout/StrictSensu/StrictSensu/Components/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xJbmRleC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/3346.ADM-UCDB/Desktop/DocumentacaoLayout/StrictSensu/StrictSensu/Components/Pages/Oferecimento/Oferecimento.razor]

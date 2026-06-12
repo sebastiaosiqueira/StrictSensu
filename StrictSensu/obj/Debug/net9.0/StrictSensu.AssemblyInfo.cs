@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StrictSensu")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+99975e05d063c65d1bde070cb0e285de07808649")]
 [assembly: System.Reflection.AssemblyProductAttribute("StrictSensu")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StrictSensu")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

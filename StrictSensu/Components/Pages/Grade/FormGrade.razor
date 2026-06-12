@@ -1,0 +1,155 @@
+﻿@page "/grade/formgrade"
+@using System.ComponentModel.DataAnnotations
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudPaper Class="pa-6" Elevation="3">
+        <MudText Typo="Typo.h5" Class="mb-4">Cadastro de Grade Curricular</MudText>
+
+        <MudForm @ref="form" @bind-IsValid="@isValid">
+            <MudGrid>
+                @* Campos Principais *@
+                <MudItem xs="12" md="6">
+                    <MudSelect T="string" Label="Curso" Required="true" @bind-Value="model.Curso">
+                        <MudSelectItem Value="@("Engenharia de Software")" />
+                        <MudSelectItem Value="@("Ciência da Computação")" />
+                        <MudSelectItem Value="@("Sistemas de Informação")" />
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudSelect T="string" Label="Período Letivo" Required="true" @bind-Value="model.PeriodoLetivo">
+                        <MudSelectItem Value="@("2026/1")" />
+                        <MudSelectItem Value="@("2026/2")" />
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField Label="Grade" Required="true" @bind-Value="model.Grade" />
+                </MudItem>
+
+                <MudItem xs="12" md="3">
+                    <MudTextField T="int" Label="Quantidade" InputType="InputType.Number" @bind-Value="model.Quantidade" />
+                </MudItem>
+
+                <MudItem xs="12" md="3">
+                    <MudTextField T="int" Label="Atividades Complementares" InputType="InputType.Number" @bind-Value="model.AtividadesComplementares" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" Label="Disciplinas Optativas" InputType="InputType.Number" @bind-Value="model.DisciplinasOptativas" />
+                </MudItem>
+
+                <MudItem xs="12" md="6">
+                    <MudTextField T="int" Label="Base Carga Horária" InputType="InputType.Number" @bind-Value="model.BaseCargaHoraria" />
+                </MudItem>
+
+                <MudItem xs="12">
+                    <Divider Class="my-4"/>
+                    <MudText Typo="Typo.h6" Class="mb-2">Adicionar Disciplinas</MudText>
+                </MudItem>
+
+                @* Seleção e Adição de Disciplinas *@
+                <MudItem xs="12" md="8">
+                    <MudSelect T="Disciplina" Label="Selecione a Disciplina" @bind-Value="disciplinaSelecionada" ToStringFunc="@(d => d == null ? "" : $"{d.Codigo} - {d.Nome} ({d.Creditos} CR)")">
+                        @foreach (var disc in listaDisciplinasDisponiveis)
+                        {
+                            <MudSelectItem Value="@disc" />
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem xs="12" md="4" Class="d-flex align-end justify-md-start justify-center pb-1">
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AdicionarDisciplina" FullWidth="true">
+                        Adicionar
+                    </MudButton>
+                </MudItem>
+
+                @* DataGrid de Disciplinas Incluídas *@
+                <MudItem xs="12" Class="mt-4">
+                    <MudDataGrid Items="@model.DisciplinasIncluidas" T="Disciplina" Hover="true" Striped="true" Dense="true" EmptyMessage="Nenhuma disciplina adicionada ainda.">
+                        <Columns>
+                            <PropertyColumn Property="x => x.Codigo" Title="Código" />
+                            <PropertyColumn Property="x => x.Nome" Title="Nome da Disciplina" />
+                            <PropertyColumn Property="x => x.Creditos" Title="Créditos" />
+                            <TemplateColumn Title="Ações" CellClass="d-flex justify-end">
+                                <CellTemplate>
+                                    <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => RemoverDisciplina(context.Item))" />
+                                </CellTemplate>
+                            </TemplateColumn>
+                        </Columns>
+                    </MudDataGrid>
+                </MudItem>
+
+                @* Botão de Envio do Formulário Completo *@
+                <MudItem xs="12" Class="d-flex justify-end mt-4">
+                    <MudButton Variant="Variant.Filled" Color="Color.Success" Disabled="@(!isValid)" OnClick="SalvarFormulario">
+                        Salvar Grade
+                    </MudButton>
+                </MudItem>
+
+            </MudGrid>
+        </MudForm>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private MudForm form;
+    private bool isValid;
+    private FormModel model = new FormModel();
+    private Disciplina disciplinaSelecionada;
+
+    // Simulação de banco de dados/API de disciplinas disponíveis para seleção
+    private List<Disciplina> listaDisciplinasDisponiveis = new List<Disciplina>
+    {
+        new Disciplina { Codigo = "INF001", Nome = "Algoritmos e Programação", Creditos = 4 },
+        new Disciplina { Codigo = "INF002", Nome = "Estrutura de Dados", Creditos = 4 },
+        new Disciplina { Codigo = "MAT001", Nome = "Cálculo Diferencial e Integral", Creditos = 6 },
+        new Disciplina { Codigo = "INF003", Nome = "Banco de Dados", Creditos = 4 }
+    };
+
+    // Método para adicionar a disciplina selecionada na tabela
+    private void AdicionarDisciplina()
+    {
+        if (disciplinaSelecionada != null)
+        {
+            // Evita duplicados na tabela
+            if (!model.DisciplinasIncluidas.Any(d => d.Codigo == disciplinaSelecionada.Codigo))
+            {
+                model.DisciplinasIncluidas.Add(disciplinaSelecionada);
+                disciplinaSelecionada = null; // Limpa o select após adicionar
+                StateHasChanged(); // Atualiza a UI da Grid
+            }
+        }
+    }
+
+    // Método para remover a disciplina da tabela
+    private void RemoverDisciplina(Disciplina disciplina)
+    {
+        model.DisciplinasIncluidas.Remove(disciplina);
+    }
+
+    private void SalvarFormulario()
+    {
+        // Lógica para enviar o 'model' para o backend
+    }
+
+    // Classes de Modelo
+    public class FormModel
+    {
+        public string Curso { get; set; }
+        public string PeriodoLetivo { get; set; }
+        public string Grade { get; set; }
+        public int Quantidade { get; set; }
+        public int AtividadesComplementares { get; set; }
+        public int DisciplinasOptativas { get; set; }
+        public int BaseCargaHoraria { get; set; }
+        public List<Disciplina> DisciplinasIncluidas { get; set; } = new List<Disciplina>();
+    }
+
+    public class Disciplina
+    {
+        public string Codigo { get; set; }
+        public string Nome { get; set; }
+        public int Creditos { get; set; }
+    }
+}

@@ -97,3 +97,4 @@ C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\De
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.pdb
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.genruntimeconfig.cache
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\ref\StrictSensu.dll
+C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.sourcelink.json
