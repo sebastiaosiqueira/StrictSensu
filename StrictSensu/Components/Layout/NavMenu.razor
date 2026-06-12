@@ -1,22 +1,44 @@
-﻿
-<MudNavMenu>
+﻿<MudNavMenu Class="menu-customizado">
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Inicio</MudNavLink>
+
     <MudNavGroup Title="Siga - Sistema de Gestão Acadêmica" Icon="@Icons.Material.Filled.Add" Expanded="false">
 
-
-        <!-- SUBMENU NÍVEL 1: Mais um grupo se precisar -->
+        <!-- SUBMENU NÍVEL 1 -->
         <MudNavGroup Title="Estrutura Pedágogica" Icon="@Icons.Material.Filled.Folder">
-            <MudNavLink Title="Pós Graduacao">Pós Graduação</MudNavLink>
+            <MudNavLink Href="pos-graduacao">Pós Graduação</MudNavLink>
+
+            <!-- SUBMENU NÍVEL 2 -->
             <MudNavGroup Title="Strict Senso" Icon="@Icons.Material.Filled.Folder">
                 <MudNavLink Href="disciplina/disciplina">Disciplina</MudNavLink>
                 <MudNavLink Href="curso/curso">Curso</MudNavLink>
                 <MudNavLink Href="grade/grade">Grade</MudNavLink>
                 <MudNavLink Href="oferecimento/oferecimento">Oferecimento</MudNavLink>
-
             </MudNavGroup>
         </MudNavGroup>
 
     </MudNavGroup>
 </MudNavMenu>
+
+<style>
+    /* Alvo apenas para o menu que recebeu a classe 'menu-customizado' */
+    .menu-customizado .mud-nav-link,
+    .menu-customizado .mud-nav-group-text {
+        font-size: 0.825rem !important; /* Diminui o texto para caber no menu lateral */
+        line-height: 1.25 !important; /* Melhora o espaçamento caso o texto quebre em 2 linhas */
+    }
+
+    /* Reduz o recuo esquerdo dos submenus para que o texto ganhe mais espaço horizontal */
+    .menu-customizado .mud-nav-group-items {
+        padding-inline-start: 12px !important;
+    }
+
+    /* Opcional: Se você NÃO quiser que o texto quebre linha de jeito nenhum e coloque '...' no final */
+    .menu-customizado .mud-nav-link-text,
+    .menu-customizado .mud-nav-group-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 
 

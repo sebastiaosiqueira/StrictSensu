@@ -50,8 +50,8 @@ C:\Users\3346.ADM-UCDB\source\repos\StrictSensu\StrictSensu\obj\Debug\net9.0\Str
 C:\Users\3346.ADM-UCDB\source\repos\StrictSensu\StrictSensu\obj\Debug\net9.0\ref\StrictSensu.dll
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\appsettings.json
-C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\StrictSensu.staticwebassets.endpoints.json
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\StrictSensu.staticwebassets.runtime.json
+C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\StrictSensu.staticwebassets.endpoints.json
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\StrictSensu.exe
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\StrictSensu.deps.json
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\bin\Debug\net9.0\StrictSensu.runtimeconfig.json
@@ -78,6 +78,7 @@ C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\De
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.AssemblyInfo.cs
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.csproj.CoreCompileInputs.cache
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.sourcelink.json
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\rjimswa.dswa.cache.json
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
@@ -97,4 +98,3 @@ C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\De
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.pdb
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.genruntimeconfig.cache
 C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\ref\StrictSensu.dll
-C:\Users\3346.ADM-UCDB\Desktop\DocumentacaoLayout\StrictSensu\StrictSensu\obj\Debug\net9.0\StrictSensu.sourcelink.json

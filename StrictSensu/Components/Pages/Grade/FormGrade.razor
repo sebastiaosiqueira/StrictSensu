@@ -1,5 +1,6 @@
 ﻿@page "/grade/formgrade"
 @using System.ComponentModel.DataAnnotations
+@inject NavigationManager navigation
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
     <MudPaper Class="pa-6" Elevation="3">
@@ -10,16 +11,16 @@
                 @* Campos Principais *@
                 <MudItem xs="12" md="6">
                     <MudSelect T="string" Label="Curso" Required="true" @bind-Value="model.Curso">
-                        <MudSelectItem Value="@("Engenharia de Software")" />
-                        <MudSelectItem Value="@("Ciência da Computação")" />
-                        <MudSelectItem Value="@("Sistemas de Informação")" />
+                        <MudSelectItem Value="@("Doutorado em Psicologia")" />
+                        <MudSelectItem Value="@("Doutorado em Ciencias Ambientas")" />
+                        <MudSelectItem Value="@("Doutorado em Desenvolvimento Local")" />
                     </MudSelect>
                 </MudItem>
 
                 <MudItem xs="12" md="6">
                     <MudSelect T="string" Label="Período Letivo" Required="true" @bind-Value="model.PeriodoLetivo">
-                        <MudSelectItem Value="@("2026/1")" />
-                        <MudSelectItem Value="@("2026/2")" />
+                        <MudSelectItem Value="@("2026-A")" />
+                        <MudSelectItem Value="@("2026-B")" />
                     </MudSelect>
                 </MudItem>
 
@@ -28,19 +29,19 @@
                 </MudItem>
 
                 <MudItem xs="12" md="3">
-                    <MudTextField T="int" Label="Quantidade" InputType="InputType.Number" @bind-Value="model.Quantidade" />
+                    <MudTextField T="int" Label="Quantidade Semetres" InputType="InputType.Number" @bind-Value="model.Quantidade" />
                 </MudItem>
 
                 <MudItem xs="12" md="3">
-                    <MudTextField T="int" Label="Atividades Complementares" InputType="InputType.Number" @bind-Value="model.AtividadesComplementares" />
+                    <MudTextField T="int" Label="CR Atividades Complementares" InputType="InputType.Number" @bind-Value="model.AtividadesComplementares" />
                 </MudItem>
 
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" Label="Disciplinas Optativas" InputType="InputType.Number" @bind-Value="model.DisciplinasOptativas" />
+                    <MudTextField T="int" Label="CR Disciplinas Optativas" InputType="InputType.Number" @bind-Value="model.DisciplinasOptativas" />
                 </MudItem>
 
                 <MudItem xs="12" md="6">
-                    <MudTextField T="int" Label="Base Carga Horária" InputType="InputType.Number" @bind-Value="model.BaseCargaHoraria" />
+                    <MudTextField T="int" Label="Base da Carga Horária" InputType="InputType.Number" @bind-Value="model.BaseCargaHoraria" />
                 </MudItem>
 
                 <MudItem xs="12">
@@ -50,7 +51,7 @@
 
                 @* Seleção e Adição de Disciplinas *@
                 <MudItem xs="12" md="8">
-                    <MudSelect T="Disciplina" Label="Selecione a Disciplina" @bind-Value="disciplinaSelecionada" ToStringFunc="@(d => d == null ? "" : $"{d.Codigo} - {d.Nome} ({d.Creditos} CR)")">
+                    <MudSelect T="Disciplina" Label="Selecione a Disciplina" @bind-Value="disciplinaSelecionada" ToStringFunc="@(d => d == null ? "" : $"{d.Codigo} - {d.Nome} ({d.Creditos} Codigo)")">
                         @foreach (var disc in listaDisciplinasDisponiveis)
                         {
                             <MudSelectItem Value="@disc" />
@@ -81,9 +82,11 @@
                 </MudItem>
 
                 @* Botão de Envio do Formulário Completo *@
-                <MudItem xs="12" Class="d-flex justify-end mt-4">
+                <MudItem xs="12" Class="d-flex justify-center gap-4 mt-4">
+                    <MudButton Variant="Variant.Filled" Color="Color.Secondary" Disabled="@(!isValid)" OnClick="VoltarFormulario">Voltar</MudButton>
+
                     <MudButton Variant="Variant.Filled" Color="Color.Success" Disabled="@(!isValid)" OnClick="SalvarFormulario">
-                        Salvar Grade
+                        Salvar
                     </MudButton>
                 </MudItem>
 
@@ -101,10 +104,10 @@
     // Simulação de banco de dados/API de disciplinas disponíveis para seleção
     private List<Disciplina> listaDisciplinasDisponiveis = new List<Disciplina>
     {
-        new Disciplina { Codigo = "INF001", Nome = "Algoritmos e Programação", Creditos = 4 },
-        new Disciplina { Codigo = "INF002", Nome = "Estrutura de Dados", Creditos = 4 },
-        new Disciplina { Codigo = "MAT001", Nome = "Cálculo Diferencial e Integral", Creditos = 6 },
-        new Disciplina { Codigo = "INF003", Nome = "Banco de Dados", Creditos = 4 }
+        new Disciplina { Codigo = "INF001", Nome = "ESTUDOS CRÍTICOS DO DESENVOLVIMENTO: INTRODUÇÃO À ECOFILOSOFIA", Creditos = 4 },
+        new Disciplina { Codigo = "INF002", Nome = "Fundamentos e Aplicações do Zebrafish em Pesquisa Científica", Creditos = 4 },
+        new Disciplina { Codigo = "MAT001", Nome = "A DIMENSÃO HUMANA E A SOLIDARIEDADE ATIVA NO TERRITÓRIO", Creditos = 6 },
+        new Disciplina { Codigo = "INF003", Nome = "ADMINISTRACAO LOCAL", Creditos = 4 }
     };
 
     // Método para adicionar a disciplina selecionada na tabela
@@ -130,7 +133,12 @@
 
     private void SalvarFormulario()
     {
-        // Lógica para enviar o 'model' para o backend
+        navigation.NavigateTo("/grade/grade");
+    }
+
+    private void VoltarFormulario()
+    {
+       navigation.NavigateTo("/grade/grade");
     }
 
     // Classes de Modelo

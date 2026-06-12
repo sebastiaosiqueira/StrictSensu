@@ -16,15 +16,15 @@
 
         <MudTextField Style="left" @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         <MudSpacer />
-        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Summarize" Color="Color.Info" Size="Size.Small">Cadastrar</MudButton>
+        <MudButton Href="/grade/formgrade" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Summarize" Color="Color.Info" Size="Size.Small">Cadastrar</MudButton>
     </ToolBarContent>
     <ColGroup>
         @if (applyButtonPosition.DisplayApplyButtonAtStart() || (editButtonPosition.DisplayEditButtonAtStart() && editTrigger == TableEditTrigger.EditButton))
         {
             <col style="width:50px;" />
         }
-        <col style="width:50px;" />
-        <col style="width:80px;" />
+        <col style="width:10%;" />
+        <col style="width:50%;" />
         <col style="width:50%;" />
         <col />
         <col />
@@ -109,14 +109,14 @@
         // Dados locais estáticos para simular o retorno da API
         Elements = new List<Element>
         {
-            new Element { Grade = 1, Curso = "Estudos Críticos", PeriodoLetivo = "Hydrogen", Creditos = 1, Ativo = false },
-            new Element { Grade = 2, Curso = "He", PeriodoLetivo = "Helium", Creditos = 18, Ativo = true },
-            new Element { Grade = 3, Curso = "Li", PeriodoLetivo = "Lithium", Creditos = 1, Ativo = true },
-            new Element { Grade = 4, Curso = "Be", PeriodoLetivo = "Beryllium", Creditos = 2, Ativo = true },
-            new Element { Grade = 5, Curso = "B", PeriodoLetivo = "Boron", Creditos = 13, Ativo = true },
-            new Element { Grade = 6, Curso = "C", PeriodoLetivo = "Carbon", Creditos = 14, Ativo = true },
-            new Element { Grade = 7, Curso = "N", PeriodoLetivo = "Nitrogen", Creditos = 15, Ativo = true},
-            new Element { Grade = 8, Curso = "O", PeriodoLetivo = "Oxygen", Creditos = 16, Ativo = true }
+            new Element { Grade = 1, Curso = "Doutorado em Psicologia", PeriodoLetivo = "2026A", Creditos = 1, Ativo = false },
+            new Element { Grade = 2, Curso = "Doutorado em Ciencias Ambientas", PeriodoLetivo = "2026A", Creditos = 18, Ativo = true },
+            new Element { Grade = 3, Curso = "Doutorado em Desenvolvimento Local", PeriodoLetivo = "2026A", Creditos = 1, Ativo = true },
+            new Element { Grade = 4, Curso = "Doutorado em Serviço Social", PeriodoLetivo = "2026A", Creditos = 2, Ativo = true },
+            new Element { Grade = 5, Curso = "Mestrado em Biotecnologia", PeriodoLetivo = "2026A", Creditos = 13, Ativo = true },
+            new Element { Grade = 6, Curso = "Mestrado em Psicologia", PeriodoLetivo = "2026A", Creditos = 14, Ativo = true },
+            new Element { Grade = 7, Curso = "Mestrado em Serviço Social", PeriodoLetivo = "2026A", Creditos = 15, Ativo = true}
+         
         };
     }
 
