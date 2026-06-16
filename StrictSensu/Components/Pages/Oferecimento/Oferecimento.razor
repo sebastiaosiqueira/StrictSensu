@@ -1,6 +1,190 @@
-﻿@page "/oferecimento/oferecimento"
-<h3>Oferecimento</h3>
+﻿@page "/oferecimento/oferecimento/"
+@inject IDialogService DialogService
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h5" Class="mb-4">Configuração de Oferecimento de Matrícula</MudText>
+
+    <MudPaper Class="pa-4 mb-4" Elevation="1">
+        <MudForm @ref="form" @bind-IsValid="@isValid">
+            <MudGrid VerticalAlignment="VerticalAlignment.Center">
+                
+                <MudItem XS="12" SM="3">
+                    <MudDatePicker Label="Início da Matrícula" 
+                                   @bind-Date="inicioMatricula" 
+                                   Required="true" 
+                                   RequiredError="Obrigatório." />
+                </MudItem>
+
+                <MudItem XS="12" SM="3">
+                    <MudDatePicker Label="Final da Matrícula" 
+                                   @bind-Date="finalMatricula" 
+                                   Required="true" 
+                                   RequiredError="Obrigatório." />
+                </MudItem>
+
+                <MudItem XS="12" SM="4">
+                    <MudSelect T="string" 
+                               Label="Cursos Selecionados" 
+                               MultiSelection="true"
+                               @bind-SelectedValues="cursosSelecionados"
+                               Required="true" 
+                               RequiredError="Selecione ao menos um curso.">
+                        @foreach (var curso in listaCursosDisponiveis)
+                        {
+                            <MudSelectItem Value="@curso">2026A - 1 - @curso</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+                <MudItem XS="12" SM="2" Class="d-flex align-end">
+                    <MudButton Variant="Variant.Filled" 
+                               Color="Color.Primary" 
+                               StartIcon="@Icons.Material.Filled.Add"
+                               OnClick="AdicionarEmLoteAGrid"
+                               FullWidth="true">
+                        Adicionar
+                    </MudButton>
+                </MudItem>
+
+            </MudGrid>
+        </MudForm>
+    </MudPaper>
+
+    <MudDataGrid Items="@listaGridPrincipal" T="GridOferecimentoModel" Hover="true" Striped="true" Elevation="1">
+        <Columns>
+            <HierarchyColumn T="GridOferecimentoModel" />
+            
+            <PropertyColumn Property="x => x.CursoSelecionado" Title="Curso Selecionado" />
+            <PropertyColumn Property="x => x.InicioMatricula" Title="Início Matrícula" Format="dd/MM/yyyy" />
+            <PropertyColumn Property="x => x.FinalMatricula" Title="Final Matrícula" Format="dd/MM/yyyy" />
+            <PropertyColumn Property="x => x.InicioCurso" Title="Início do Curso" Format="dd/MM/yyyy" />
+            <PropertyColumn Property="x => x.FinalCurso" Title="Final do Curso" Format="dd/MM/yyyy" />
+            
+            <TemplateColumn Title="Disciplinas Vinculadas">
+                <CellTemplate>
+                    @if (context.Item.DisciplinasNome.Any())
+                    {
+                        <div class="d-flex flex-wrap gap-1">
+                            @foreach (var disc in context.Item.DisciplinasNome)
+                            {
+                                <MudChip T="string" Size="Size.Small" Color="Color.Success" Variant="Variant.Filled">@disc</MudChip>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <MudText Color="Color.Error" Typo="Typo.body2"><i>Nenhuma disciplina selecionada</i></MudText>
+                    }
+                </CellTemplate>
+            </TemplateColumn>
+
+            <TemplateColumn Title="Ações" CellClass="d-flex justify-end">
+                <CellTemplate>
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" 
+                                   Color="Color.Error" 
+                                   Size="Size.Small"
+                                   Title="Excluir Registro"
+                                   OnClick="@(() => ExcluirItem(context.Item))" />
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+
+        <ChildRowContent>
+            <MudCard Elevation="0" Class="pa-4" Style="background-color: #fafafa; border-left: 4px solid #594ae2;">
+                <MudText Typo="Typo.subtitle2" Class="mb-2" Color="Color.Primary">
+                    <MudIcon Icon="@Icons.Material.Filled.LibraryAdd" Size="Size.Small" Class="mr-1"/> 
+                    Selecione as disciplinas para o curso <b>@context.Item.CursoSelecionado</b>:
+                </MudText>
+                
+                <MudGrid Spacing="1">
+                    @foreach (var disc in listaDisciplinasBanco)
+                    {
+                        <MudItem XS="12" SM="4" MD="3">
+                            <MudCheckBox T="bool" 
+                                         Value="@context.Item.DisciplinasNome.Contains(disc)" 
+                                         ValueChanged="@((bool checkedState) => OnDisciplinaCheckChanged(context.Item, disc, checkedState))" 
+                                         Label="@disc" 
+                                         Color="Color.Primary" 
+                                         Dense="true" />
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudCard>
+        </ChildRowContent>
+    </MudDataGrid>
+</MudContainer>
 
 @code {
+    private MudForm form;
+    private bool isValid;
 
+    private DateTime? inicioMatricula;
+    private DateTime? finalMatricula;
+    private IEnumerable<string> cursosSelecionados = new HashSet<string>();
+
+    private List<string> listaCursosDisponiveis = new() { "DOUTORADO EM BIOTECNOLOGIA", "DOUTORADO EM CIÊNCIAS AMBIENTAIS E SUSTENTABILIDADE AGROPECUÁRIA", "DOUTORADO EM DESENVOLVIMENTO LOCAL", "DOUTORADO EM EDUCAÇÃO" };
+    private List<string> listaDisciplinasBanco = new() { "Fundamentos e Aplicações do Zebrafish em Pesquisa Científica", "ADMINISTRACAO LOCAL", "APRENDIZAGEM ESCOLAR E COGNIÇÃO", "A DIMENSÃO HUMANA E A SOLIDARIEDADE ATIVA NO TERRITÓRIO", "A DESCENTRALIZAÇÃO DO SISTEMA ESCOLAR", "AGROCOMBUSTIVEIS E SUSTENTABILIDADE RURAL" };
+
+    private List<GridOferecimentoModel> listaGridPrincipal = new();
+
+    private async Task AdicionarEmLoteAGrid()
+    {
+        await form.Validate();
+
+        if (isValid)
+        {
+            foreach (var curso in cursosSelecionados)
+            {
+                var novoOferecimento = new GridOferecimentoModel
+                {
+                    CursoSelecionado = $"2026A - 1 - {curso}",
+                    InicioMatricula = inicioMatricula,
+                    FinalMatricula = finalMatricula,
+                    InicioCurso = DateTime.Today.AddMonths(2),
+                    FinalCurso = DateTime.Today.AddMonths(7),
+                    DisciplinasNome = new List<string>() 
+                };
+
+                listaGridPrincipal.Add(novoOferecimento);
+            }
+            
+            cursosSelecionados = new HashSet<string>();
+            form.ResetValidation();
+            StateHasChanged();
+        }
+    }
+
+    private void OnDisciplinaCheckChanged(GridOferecimentoModel item, string disciplina, bool isChecked)
+    {
+        if (isChecked)
+        {
+            if (!item.DisciplinasNome.Contains(disciplina))
+                item.DisciplinasNome.Add(disciplina);
+        }
+        else
+        {
+            item.DisciplinasNome.Remove(disciplina);
+        }
+        
+        StateHasChanged(); 
+    }
+
+    // NOVO: Método para remover o item da lista e atualizar a Grid imediatamente
+    private void ExcluirItem(GridOferecimentoModel item)
+    {
+        if (item != null && listaGridPrincipal.Contains(item))
+        {
+            listaGridPrincipal.Remove(item);
+            StateHasChanged(); // Redesenha a Grid na tela sem o item removido
+        }
+    }
+
+    public class GridOferecimentoModel
+    {
+        public string CursoSelecionado { get; set; }
+        public DateTime? InicioMatricula { get; set; }
+        public DateTime? FinalMatricula { get; set; }
+        public DateTime InicioCurso { get; set; }
+        public DateTime FinalCurso { get; set; }
+        public List<string> DisciplinasNome { get; set; } = new List<string>();
+    }
 }

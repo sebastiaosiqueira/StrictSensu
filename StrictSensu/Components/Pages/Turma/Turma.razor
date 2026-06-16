@@ -1,0 +1,186 @@
+﻿@page "/turma/turma"
+
+
+<br>
+<br />
+<h2>Tela de Turma</h2>
+<br />
+@using System.Net.Http.Json
+
+<MudTable Items="@Elements" Dense="@dense" Hover="@hover" ReadOnly="@ronly" CanCancelEdit="@canCancelEdit" Filter="new Func<Element, bool>(FilterFunc)"
+          @bind-SelectedItem="selectedItem1" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
+          OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+          RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="@blockSwitch" ApplyButtonPosition="@applyButtonPosition" EditButtonPosition="@editButtonPosition" EditTrigger="@editTrigger">
+    <ToolBarContent>
+        <MudButton Variant="Variant.Filled" Class="me-4">Voltar</MudButton>
+
+        <MudTextField Style="left" @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        <MudSpacer />
+        <MudButton Href="/turma/formturma" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Summarize" Color="Color.Info" Size="Size.Small">Cadastrar</MudButton>
+    </ToolBarContent>
+    <ColGroup>
+        @if (applyButtonPosition.DisplayApplyButtonAtStart() || (editButtonPosition.DisplayEditButtonAtStart() && editTrigger == TableEditTrigger.EditButton))
+        {
+            <col style="width:50px;" />
+        }
+        <col style="width:10%;" />
+        <col style="width:20%;" />
+        <col style="width:20%;" />
+        <col style="width:20%;" />
+        
+        @if (applyButtonPosition.DisplayApplyButtonAtEnd() || (editButtonPosition.DisplayEditButtonAtEnd() && editTrigger == TableEditTrigger.EditButton))
+        {
+            <col style="width:20%;" />
+        }
+    </ColGroup>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Grade)">Nome - Grade</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Curso)">Codigo - Curso</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Element, object>(x => x.InicioMatricula)">InicioMatricula</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.FinalMatricula)">Final Matricula</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.InicioCurso)">Inicio do Curso</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.FinalCurso)">Final do Curso</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Grade">@context.Grade</MudTd>
+        <MudTd DataLabel="Curso">@context.Curso</MudTd>
+        <MudTd DataLabel="Inicio  Matricula">@context.InicioMatricula</MudTd>
+        <MudTd DataLabel="Final Matricula">@context.FinalMatricula</MudTd>
+        <MudTd DataLabel="Inicio do Curso">@context.InicioCurso</MudTd>
+        <MudTd DataLabel="Final do Curso">@context.FinalCurso</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="Grade">@context.Grade</MudTd>
+        <MudTd DataLabel="Curso">
+            <MudTextField @bind-Value="context.Curso" Required />
+        </MudTd>
+        <MudTd DataLabel="Inicio da Matricula">
+            <MudTextField @bind-Value="context.InicioMatricula" Required />
+        </MudTd>
+        <MudTd DataLabel="Final da Matricula ">
+            <MudTextField @bind-Value="context.FinalMatricula" Required Min="1" />
+        </MudTd>
+        <MudTd DataLabel="Inicio do Curso">
+            <MudTextField @bind-Value="context.InicioCurso" Required />
+        </MudTd>
+        <MudTd DataLabel="Final do Curso">
+            <MudTextField @bind-Value="context.FinalCurso" Required />
+        </MudTd>
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    <EditButtonContent Context="button">
+        <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" Class="pa-0" OnClick="@button.ButtonAction" Disabled="@button.ButtonDisabled" />
+    </EditButtonContent>
+</MudTable>
+
+
+
+
+
+
+@code {
+    // Injeta o Snackbar caso você use a notificação no OnCommitEditClick
+    [Inject] private ISnackbar Snackbar { get; set; }
+
+    private List<string> editEvents = new();
+    private bool dense = false;
+    private bool hover = true;
+    private bool ronly = false;
+    private bool canCancelEdit = false;
+    private bool blockSwitch = false;
+    private string searchString = "";
+    private Element selectedItem1 = null;
+    private Element elementBeforeEdit;
+    private HashSet<Element> selectedItems1 = new HashSet<Element>();
+    private TableApplyButtonPosition applyButtonPosition = TableApplyButtonPosition.End;
+    private TableEditButtonPosition editButtonPosition = TableEditButtonPosition.End;
+    private TableEditTrigger editTrigger = TableEditTrigger.RowClick;
+    private IEnumerable<Element> Elements = new List<Element>();
+
+    // Definição da classe local para o modelo de dados
+    public class Element
+    {
+        public string Grade { get; set; }
+        public string Curso { get; set; }
+        public string InicioMatricula { get; set; }
+        public string FinalMatricula { get; set; }
+        public string InicioCurso { get; set; }
+        public string FinalCurso { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        // Dados locais estáticos para simular o retorno da API
+        Elements = new List<Element>
+        {
+            new Element { Grade = "2026A - 1", Curso = "5478 - Doutorado em Psicologia", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "5479 - Doutorado em Ciencias Ambientas",  InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028"},
+            new Element { Grade = "2026A - 1", Curso = "5496 - Doutorado em Desenvolvimento Local", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "2456 - Doutorado em Serviço Social", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "5489 - Mestrado em Biotecnologia", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "3678 - Mestrado em Psicologia", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028"},
+            new Element { Grade = "2026A - 1", Curso = "3648 - Mestrado em Serviço Social", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028"}
+
+};
+    }
+
+    private void ClearEventLog()
+    {
+        editEvents.Clear();
+    }
+
+    private void AddEditionEvent(string message)
+    {
+        editEvents.Add(message);
+        StateHasChanged();
+    }
+
+    private void BackupItem(object element)
+    {
+        elementBeforeEdit = new()
+        {
+            Grade = ((Element)element).Grade,
+            Curso = ((Element)element).Curso,
+            InicioMatricula = ((Element)element).InicioMatricula,
+            FinalMatricula = ((Element)element).FinalMatricula,
+            InicioCurso = ((Element)element).InicioCurso,
+            FinalCurso = ((Element)element).FinalCurso
+        };
+        AddEditionEvent($"RowEditPreview event: made a backup of Element {((Element)element).Grade}");
+    }
+
+    private void ItemHasBeenCommitted(object element)
+    {
+        AddEditionEvent($"RowEditCommit event: Changes to Element {((Element)element).Grade} committed");
+    }
+
+    private void ResetItemToOriginalValues(object element)
+    {
+        ((Element)element).Grade = elementBeforeEdit.Grade;
+        ((Element)element).Curso = elementBeforeEdit.Curso;
+        ((Element)element).InicioMatricula = elementBeforeEdit.InicioMatricula;
+        ((Element)element).FinalMatricula = elementBeforeEdit.FinalMatricula;
+        ((Element)element).InicioCurso = elementBeforeEdit.InicioCurso;
+        ((Element)element).FinalCurso = elementBeforeEdit.FinalCurso;
+        AddEditionEvent($"RowEditCancel event: Editing of Element {((Element)element).Grade} canceled");
+    }
+
+    private bool FilterFunc(Element element)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Curso.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.InicioMatricula.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.FinalMatricula} {element.Grade} {element.FinalMatricula}".Contains(searchString))
+            return true;
+        if ($"{element.InicioCurso} {element.Grade} {element.InicioCurso}".Contains(searchString))
+            return true;
+        if ($"{element.FinalCurso} {element.Grade} {element.FinalCurso}".Contains(searchString))
+            return true;
+        return false;
+    }
+}

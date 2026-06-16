@@ -1,0 +1,172 @@
+﻿@page "/turma/formturma"
+@inject ISnackbar Snackbar
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h5" Class="mb-4" Color="Color.Primary" Weight="Weight.Bold">
+        Configuração de Períodos por Curso
+    </MudText>
+
+    @* FORMULÁRIO DE INSERÇÃO *@
+    <MudPaper Class="pa-4 mb-6" Elevation="3">
+        <MudGrid>
+            @* CAMPOS DE MATRÍCULA *@
+            <MudItem xs="12" sm="6" md="3">
+                <MudDatePicker Label="Início da Matrícula" @bind-Date="_novaConfig.MatriculaInicio" Editable="true" Margin="Margin.Dense" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudDatePicker Label="Final da Matrícula" @bind-Date="_novaConfig.MatriculaFim" Editable="true" Margin="Margin.Dense" Variant="Variant.Outlined" />
+            </MudItem>
+
+            @* CAMPOS DO CURSO *@
+            <MudItem xs="12" sm="6" md="3">
+                <MudDatePicker Label="Início do Curso" @bind-Date="_novaConfig.CursoInicio" Editable="true" Margin="Margin.Dense" Variant="Variant.Outlined" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudDatePicker Label="Final do Curso" @bind-Date="_novaConfig.CursoFim" Editable="true" Margin="Margin.Dense" Variant="Variant.Outlined" />
+            </MudItem>
+
+            @* SELEÇÃO MULTIPLA DE CURSOS *@
+            <MudItem xs="12" sm="8" md="9">
+                <MudSelect T="string" Label="Selecione os Cursos" MultiSelection="true" @bind-SelectedValues="_cursosSelecionadosForm" SelectAll="true" SelectAllText="Selecionar todos os cursos" Variant="Variant.Outlined" Margin="Margin.Dense">
+                    @foreach (var curso in _listaCursosDisponiveis)
+                    {
+                        <MudSelectItem T="string" Value="@curso">@curso</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>
+
+            @* BOTÃO ADICIONAR *@
+            <MudItem xs="12" sm="4" md="3" Class="d-flex align-end justify-end">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AdicionarNaGrid" FullWidth="true" Size="Size.Large">
+                    Inserir na Grid
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    @* GRID DE EXIBIÇÃO (MUDTABLE) *@
+    <MudTable Items="@_tabelaConfigs" Hover="true" Bordered="true" Striped="true" Dense="true" T="ConfigItem" CanCancelEdit="true" RowEditCommit="SalvarEdicaoLinha" RowEditCancel="CancelarEdicaoLinha" IsEditRowSwitchingBlocked="false">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Cursos e Períodos Configurados</MudText>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh Style="width: 30%">Nome - Grade - Codigo - Curso</MudTh>
+            <MudTh>Início Matrícula</MudTh>
+            <MudTh>Final Matrícula</MudTh>
+            <MudTh>Início Curso</MudTh>
+            <MudTh>Final Curso</MudTh>
+            <MudTh Style="width: 10%; text-align: center;">Ações</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nome - Grade - Codigo - Curso">
+                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Text">@context.CursoNome</MudChip>
+            </MudTd>
+            <MudTd DataLabel="Início Matrícula">@context.MatriculaInicio?.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel="Final Matrícula">@context.MatriculaFim?.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel="Início Curso">@context.CursoInicio?.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel="Final Curso">@context.CursoFim?.ToString("dd/MM/yyyy")</MudTd>
+            <MudTd DataLabel="Ações" Style="text-align: center;">
+                @* O próprio MudBlazor gerencia o botão de editar em modo inline através do RowValidator/RowEdit *@
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="@(() => ExcluirLinha(context))" Tooltip="Excluir Registro" />
+            </MudTd>
+        </RowTemplate>
+
+        @* INLINE EDIT TEMPLATE (QUANDO CLICAR EM EDITAR NA GRID) *@
+        <RowEditingTemplate>
+            <MudTd DataLabel=" Nome - Grade - Codigo - Curso">
+                <MudText Typo="Typo.body2">@context.CursoNome (Não editável)</MudText>
+            </MudTd>
+            <MudTd DataLabel="Início Matrícula">
+                <MudDatePicker @bind-Date="context.MatriculaInicio" Margin="Margin.Dense" />
+            </MudTd>
+            <MudTd DataLabel="Final Matrícula">
+                <MudDatePicker @bind-Date="context.MatriculaFim" Margin="Margin.Dense" />
+            </MudTd>
+            <MudTd DataLabel="Início Curso">
+                <MudDatePicker @bind-Date="context.CursoInicio" Margin="Margin.Dense" />
+            </MudTd>
+            <MudTd DataLabel="Final Curso">
+                <MudDatePicker @bind-Date="context.CursoFim" Margin="Margin.Dense" />
+            </MudTd>
+        </RowEditingTemplate>
+
+        <NoRecordsContent>
+            <MudText Align="Align.Center" Class="pa-4">Nenhuma configuração inserida. Preencha o formulário acima.</MudText>
+        </NoRecordsContent>
+    </MudTable>
+</MudContainer>
+
+@code {
+    // Modelo que representa cada linha da Grid
+    public class ConfigItem
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string CursoNome { get; set; }
+        public DateTime? MatriculaInicio { get; set; }
+        public DateTime? MatriculaFim { get; set; }
+        public DateTime? CursoInicio { get; set; }
+        public DateTime? CursoFim { get; set; }
+    }
+
+    private ConfigItem _novaConfig = new();
+    private List<ConfigItem> _tabelaConfigs = new();
+    private IEnumerable<string> _cursosSelecionadosForm { get; set; } = new HashSet<string>();
+
+    // Mock de cursos para a listagem do Select
+    private List<string> _listaCursosDisponiveis = new()
+    {
+        "2026A - 001 - 7545 - Doutorado em Psicologia",
+        "2026A - 001 - 7848 - Doutorado em Ciencias Ambientais",
+        "2026A - 001 - 7856 - Doutorado em Desenvolvimento local",
+        "2026A - 001 - 3565 -Doutorado em Serviço Social",
+        "2026A - 001 - 5547 - Mestrado em Biotecnologia",
+        "2026A - 001 - 1253 - Mestrado em Psicologia"
+    };
+
+    private void AdicionarNaGrid()
+    {
+        // Validação: Exige que pelo menos um curso tenha sido selecionado
+        if (_cursosSelecionadosForm == null || !_cursosSelecionadosForm.Any())
+        {
+            Snackbar.Add("Selecione pelo menos um curso para inserir na grid.", Severity.Warning);
+            return;
+        }
+
+        // Para cada curso selecionado na lista, cria-se uma linha única na grid
+        foreach (var curso in _cursosSelecionadosForm)
+        {
+            _tabelaConfigs.Add(new ConfigItem
+            {
+                CursoNome = curso,
+                MatriculaInicio = _novaConfig.MatriculaInicio,
+                MatriculaFim = _novaConfig.MatriculaFim,
+                CursoInicio = _novaConfig.CursoInicio,
+                CursoFim = _novaConfig.CursoFim
+            });
+        }
+
+        // Limpa o formulário e as seleções após a inserção bem-sucedida
+        _novaConfig = new ConfigItem();
+        _cursosSelecionadosForm = new HashSet<string>();
+        Snackbar.Add("Cursos inseridos com sucesso na grid!", Severity.Success);
+    }
+
+    private void ExcluirLinha(ConfigItem item)
+    {
+        _tabelaConfigs.Remove(item);
+        Snackbar.Add($"{item.CursoNome} removido da lista.", Severity.Info);
+    }
+
+    // Métodos para controle da edição nativa inline do MudBlazor
+    private void SalvarEdicaoLinha(object element)
+    {
+        var item = element as ConfigItem;
+        Snackbar.Add($"Alterações salvos para o curso {item?.CursoNome}.", Severity.Success);
+    }
+
+    private void CancelarEdicaoLinha(object element)
+    {
+        var item = element as ConfigItem;
+        Snackbar.Add("Edição cancelada.", Severity.Normal);
+    }
+}
