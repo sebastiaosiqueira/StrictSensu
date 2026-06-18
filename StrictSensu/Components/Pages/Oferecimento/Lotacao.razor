@@ -1,37 +1,43 @@
 ﻿@page "/oferecimento/lotacao"
+@inject IDialogService DialogService
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
-    <MudText Typo="Typo.h5" Class="mb-4">Atribuição de Professores por Disciplina</MudText>
+    <MudText Typo="Typo.h5" Class="mb-4">Atribuição de Múltiplos Professores por Disciplina Única</MudText>
 
     <MudAlert Severity="Severity.Info" Variant="Variant.Outlined" Class="mb-4">
-        Expanda a linha do oferecimento clicando na seta (›) para definir qual professor ministrará cada disciplina.
+        Cada linha abaixo representa uma disciplina única gerada nos oferecimentos. Defina os professores responsáveis (um ou mais) que atuarão nela.
     </MudAlert>
 
-    <MudDataGrid Items="@listaOferecimentosAtivos" T="OferecimentoProfessorModel" Hover="true" Striped="true" Elevation="1">
+    <MudDataGrid Items="@listaDisciplinasOferecidas" T="DisciplinaOferecimentoModel" Hover="true" Striped="true" Elevation="1">
         <Columns>
-            <HierarchyColumn T="OferecimentoProfessorModel" />
+            <HierarchyColumn T="DisciplinaOferecimentoModel" />
 
-            <PropertyColumn Property="x => x.CursoSelecionado" Title="Curso / Turma" />
-            <PropertyColumn Property="x => x.InicioMatricula" Title="Início Matrícula" Format="dd/MM/yyyy" />
-            <PropertyColumn Property="x => x.FinalMatricula" Title="Final Matrícula" Format="dd/MM/yyyy" />
+            <PropertyColumn Property="x => x.DisciplinaNome" Title="Disciplina" />
+
+            <TemplateColumn Title="Cursos Vinculados neste Oferecimento">
+                <CellTemplate>
+                    <div class="d-flex flex-wrap gap-1">
+                        @foreach (var curso in context.Item.CursosVinculados)
+                        {
+                            <MudChip T="string" Color="Color.Default" Size="Size.Small" Variant="Variant.Text">@curso</MudChip>
+                        }
+                    </div>
+                </CellTemplate>
+            </TemplateColumn>
 
             <TemplateColumn Title="Status de Atribuição">
                 <CellTemplate>
-                    @{
-                        var totalGeral = context.Item.DisciplinasProfessores.Count;
-                        var totalAtribuidos = context.Item.DisciplinasProfessores.Count(dp => !string.IsNullOrEmpty(dp.ProfessorNome));
-                    }
-                    @if (totalGeral == 0)
+                    @if (context.Item.ProfessoresNomes != null && context.Item.ProfessoresNomes.Any())
                     {
-                        <MudText Color="Color.Error" Typo="Typo.body2"><i>Nenhuma disciplina vinculada</i></MudText>
-                    }
-                    else if (totalAtribuidos == totalGeral)
-                    {
-                        <MudChip T="string" Color="Color.Success" Size="Size.Small" Variant="Variant.Filled">Concluído (@totalAtribuidos/@totalGeral)</MudChip>
+                        <MudChip T="string" Color="Color.Success" Size="Size.Small" Variant="Variant.Filled">
+                            @context.Item.ProfessoresNomes.Count() Professor(es) Alocado(s)
+                        </MudChip>
                     }
                     else
                     {
-                        <MudChip T="string" Color="Color.Warning" Size="Size.Small" Variant="Variant.Filled">Pendente (@totalAtribuidos/@totalGeral)</MudChip>
+                        <MudChip T="string" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled">
+                            Sem Professor
+                        </MudChip>
                     }
                 </CellTemplate>
             </TemplateColumn>
@@ -41,45 +47,28 @@
             <MudCard Elevation="0" Class="pa-4" Style="background-color: #fafafa; border-left: 4px solid #ff9800;">
                 <MudText Typo="Typo.subtitle2" Class="mb-3" Color="Color.Warning">
                     <MudIcon Icon="@Icons.Material.Filled.SupervisorAccount" Size="Size.Small" Class="mr-1" />
-                    Designar Professores para: <b>@context.Item.CursoSelecionado</b>
+                    Designar Equipe Docente para: <b>@context.Item.DisciplinaNome</b>
                 </MudText>
 
-                @if (context.Item.DisciplinasProfessores.Any())
-                {
-                    <MudGrid Spacing="2">
-                        @foreach (var vinculo in context.Item.DisciplinasProfessores)
-                        {
-                            <MudItem XS="12" SM="6" MD="4">
-                                <MudPaper Class="pa-3 d-flex flex-column gap-2" Outlined="true">
-                                    <MudText Typo="Typo.body2" Class="mud-text-secondary">
-                                        <MudIcon Icon="@Icons.Material.Filled.Book" Size="Size.Small" Class="mr-1" />
-                                        <b>@vinculo.DisciplinaNome</b>
-                                    </MudText>
-
-                                    <MudSelect T="string"
-                                               Label="Professor Responsável"
-                                               Value="@vinculo.ProfessorNome"
-                                               ValueChanged="@((string novoProf) => OnProfessorChanged(context.Item, vinculo, novoProf))"
-                                               Dense="true"
-                                               Margin="Margin.Dense"
-                                               Variant="Variant.Outlined">
-                                        <MudSelectItem Value="@((string)null)">-- Selecione um Professor --</MudSelectItem>
-                                        @foreach (var prof in listaProfessoresBanco)
-                                        {
-                                            <MudSelectItem Value="@prof">@prof</MudSelectItem>
-                                        }
-                                    </MudSelect>
-                                </MudPaper>
-                            </MudItem>
-                        }
-                    </MudGrid>
-                }
-                else
-                {
-                    <MudText Typo="Typo.body2" Color="Color.Error">
-                        <i>Não existem disciplinas cadastradas para este oferecimento na tela anterior.</i>
-                    </MudText>
-                }
+                <MudGrid Spacing="2">
+                    <MudItem XS="12" SM="8" MD="6">
+                        <MudSelect T="string"
+                                   Label="Professores Responsáveis"
+                                   MultiSelection="true"
+                                   SelectedValues="@context.Item.ProfessoresNomes"
+                                   SelectedValuesChanged="@((IEnumerable<string> novosProfs) => OnProfessoresChanged(context.Item, novosProfs))"
+                                   SelectAll="true"
+                                   SelectAllText="Selecionar Todos"
+                                   Variant="Variant.Outlined"
+                                   AdornmentIcon="@Icons.Material.Filled.People"
+                                   AdornmentColor="Color.Primary">
+                            @foreach (var prof in listaProfessoresBanco)
+                            {
+                                <MudSelectItem Value="@prof">@prof</MudSelectItem>
+                            }
+                        </MudSelect>
+                    </MudItem>
+                </MudGrid>
             </MudCard>
         </ChildRowContent>
     </MudDataGrid>
@@ -96,7 +85,6 @@
 </MudContainer>
 
 @code {
-    // Banco de dados fictício de professores cadastrados no sistema
     private List<string> listaProfessoresBanco = new()
     {
         "Prof. Dr. Alan Turing",
@@ -106,68 +94,57 @@
         "Prof. Dr. Edsger Dijkstra"
     };
 
-    // Lista que simula os oferecimentos ativos vindo da tela anterior (já com disciplinas salvas)
-    private List<OferecimentoProfessorModel> listaOferecimentosAtivos = new();
+    // Nova modelagem agrupada por disciplina única
+    private List<DisciplinaOferecimentoModel> listaDisciplinasOferecidas = new();
 
     protected override void OnInitialized()
     {
-        // Simulando dados pré-existentes carregados do banco de dados/oferecimento anterior
-        listaOferecimentosAtivos = new List<OferecimentoProfessorModel>
+        // Simulando dados que vieram agrupados da tela anterior (Agrupados por Disciplina)
+        listaDisciplinasOferecidas = new List<DisciplinaOferecimentoModel>
         {
-            new OferecimentoProfessorModel
+            new DisciplinaOferecimentoModel
             {
-                CursoSelecionado = "2026A - 1 - Doutorado em Psicologia",
-                InicioMatricula = DateTime.Today,
-                FinalMatricula = DateTime.Today.AddDays(15),
-                DisciplinasProfessores = new List<DisciplinaProfessorVinculo>
-                {
-                    new DisciplinaProfessorVinculo { DisciplinaNome = "Fundamentos e Aplicações do Zebrafish em Pesquisa Científica" },
-                    new DisciplinaProfessorVinculo { DisciplinaNome = "A DIMENSÃO HUMANA E A SOLIDARIEDADE ATIVA NO TERRITÓRIO" },
-                    new DisciplinaProfessorVinculo { DisciplinaNome = "A ESCOLA COMO CAMPO DE SOCIALIZAÇÃO" }
-                }
+                DisciplinaNome = "Fundamentos e Aplicações do Zebrafish em Pesquisa Científica",
+                CursosVinculados = new List<string> { "2026A - 1 - Doutorado em Psicologia", "2026A - 1 - Doutorado em Biotecnologia" },
+                ProfessoresNomes = new HashSet<string>() // Começa vazio
             },
-            new OferecimentoProfessorModel
+            new DisciplinaOferecimentoModel
             {
-                CursoSelecionado = "2026A - 1 - Doutorado em Ciencias Ambientas",
-                InicioMatricula = DateTime.Today.AddDays(2),
-                FinalMatricula = DateTime.Today.AddDays(17),
-                DisciplinasProfessores = new List<DisciplinaProfessorVinculo>
-                {
-                    new DisciplinaProfessorVinculo { DisciplinaNome = "ADMINISTRACAO LOCAL", ProfessorNome = "Profª. Dra. Ada Lovelace" }, // Exemplo de já atribuído
-                    new DisciplinaProfessorVinculo { DisciplinaNome = "AGROCOMBUSTIVEIS E SUSTENTABILIDADE RURAL" }
-                }
+                DisciplinaNome = "A DIMENSÃO HUMANA E A SOLIDARIEDADE ATIVA NO TERRITÓRIO",
+                CursosVinculados = new List<string> { "2026A - 1 - Doutorado em Psicologia" },
+                ProfessoresNomes = new HashSet<string> { "Profª. Dra. Ada Lovelace", "Prof. Dr. Alan Turing" } // Já inicia com dois professores
+            },
+            new DisciplinaOferecimentoModel
+            {
+                DisciplinaNome = "ADMINISTRACAO LOCAL",
+                CursosVinculados = new List<string> { "2026A - 1 - Doutorado em Ciencias Ambientas" },
+                ProfessoresNomes = new HashSet<string>()
             }
         };
     }
 
-    // Gerencia a troca de professores e força a Grid a recalcular os contadores dos Chips em tempo real
-    private void OnProfessorChanged(OferecimentoProfessorModel oferecimento, DisciplinaProfessorVinculo vinculo, string novoProfessor)
+    // Captura a troca da lista de professores selecionados
+    private void OnProfessoresChanged(DisciplinaOferecimentoModel item, IEnumerable<string> novosProfessores)
     {
-        vinculo.ProfessorNome = novoProfessor;
-        StateHasChanged(); // Atualiza na hora o status "Pendente" ou "Concluído" no cabeçalho da Grid
+        item.ProfessoresNomes = novosProfessores ?? new HashSet<string>();
+        StateHasChanged(); // Atualiza a Grid instantaneamente
     }
 
     private void SalvarAtribuicoes()
     {
-        // Aqui você integraria com sua API / Banco de Dados enviando a 'listaOferecimentosAtivos'
-        // Exemplo fictício de processamento:
-        Console.WriteLine("Atribuições salvas com sucesso no banco de dados!");
+        // Aqui os dados já vão prontos: 1 Disciplina mapeada para N Professores de uma vez só!
+        Console.WriteLine("Lotação em lote por disciplina salva com sucesso!");
     }
 
-    // Classes de Modelo Estruturadas para esta Tela
-    public class OferecimentoProfessorModel
-    {
-        public string CursoSelecionado { get; set; }
-        public DateTime? InicioMatricula { get; set; }
-        public DateTime? FinalMatricula { get; set; }
-
-        // Lista associativa que une a Disciplina com o respectivo Professor
-        public List<DisciplinaProfessorVinculo> DisciplinasProfessores { get; set; } = new List<DisciplinaProfessorVinculo>();
-    }
-
-    public class DisciplinaProfessorVinculo
+    // Estrutura de Modelo focada na Disciplina Única e suportando N Professores
+    public class DisciplinaOferecimentoModel
     {
         public string DisciplinaNome { get; set; }
-        public string ProfessorNome { get; set; } // Fica null até que o usuário selecione no dropdown
+
+        // Mantém o rastreio de quais turmas herdarão essa configuração
+        public List<string> CursosVinculados { get; set; } = new List<string>();
+
+        // Modificado de string para coleção para aceitar múltiplos professores
+        public IEnumerable<string> ProfessoresNomes { get; set; } = new HashSet<string>();
     }
 }
