@@ -10,12 +10,7 @@
     <MudPaper Class="pa-4 mb-6" Elevation="3">
         <MudGrid>
             @* CAMPOS DE MATRÍCULA *@
-            <MudItem xs="12" sm="6" md="3">
-                <MudDatePicker Label="Início da Matrícula" @bind-Date="_novaConfig.MatriculaInicio" Editable="true" Margin="Margin.Dense" Variant="Variant.Outlined" />
-            </MudItem>
-            <MudItem xs="12" sm="6" md="3">
-                <MudDatePicker Label="Final da Matrícula" @bind-Date="_novaConfig.MatriculaFim" Editable="true" Margin="Margin.Dense" Variant="Variant.Outlined" />
-            </MudItem>
+          
 
             @* CAMPOS DO CURSO *@
             <MudItem xs="12" sm="6" md="3">
@@ -51,8 +46,7 @@
         </ToolBarContent>
         <HeaderContent>
             <MudTh Style="width: 30%">Nome - Grade - Codigo - Curso</MudTh>
-            <MudTh>Início Matrícula</MudTh>
-            <MudTh>Final Matrícula</MudTh>
+           
             <MudTh>Início Curso</MudTh>
             <MudTh>Final Curso</MudTh>
             <MudTh Style="width: 10%; text-align: center;">Ações</MudTh>
@@ -61,8 +55,7 @@
             <MudTd DataLabel="Nome - Grade - Codigo - Curso">
                 <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Text">@context.CursoNome</MudChip>
             </MudTd>
-            <MudTd DataLabel="Início Matrícula">@context.MatriculaInicio?.ToString("dd/MM/yyyy")</MudTd>
-            <MudTd DataLabel="Final Matrícula">@context.MatriculaFim?.ToString("dd/MM/yyyy")</MudTd>
+           
             <MudTd DataLabel="Início Curso">@context.CursoInicio?.ToString("dd/MM/yyyy")</MudTd>
             <MudTd DataLabel="Final Curso">@context.CursoFim?.ToString("dd/MM/yyyy")</MudTd>
             <MudTd DataLabel="Ações" Style="text-align: center;">
@@ -76,12 +69,7 @@
             <MudTd DataLabel=" Nome - Grade - Codigo - Curso">
                 <MudText Typo="Typo.body2">@context.CursoNome (Não editável)</MudText>
             </MudTd>
-            <MudTd DataLabel="Início Matrícula">
-                <MudDatePicker @bind-Date="context.MatriculaInicio" Margin="Margin.Dense" />
-            </MudTd>
-            <MudTd DataLabel="Final Matrícula">
-                <MudDatePicker @bind-Date="context.MatriculaFim" Margin="Margin.Dense" />
-            </MudTd>
+           
             <MudTd DataLabel="Início Curso">
                 <MudDatePicker @bind-Date="context.CursoInicio" Margin="Margin.Dense" />
             </MudTd>
@@ -138,8 +126,7 @@
             _tabelaConfigs.Add(new ConfigItem
             {
                 CursoNome = curso,
-                MatriculaInicio = _novaConfig.MatriculaInicio,
-                MatriculaFim = _novaConfig.MatriculaFim,
+               
                 CursoInicio = _novaConfig.CursoInicio,
                 CursoFim = _novaConfig.CursoFim
             });

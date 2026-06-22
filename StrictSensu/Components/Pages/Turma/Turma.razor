@@ -36,16 +36,12 @@
     <HeaderContent>
         <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Grade)">Nome - Grade</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.Curso)">Codigo - Curso</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<Element, object>(x => x.InicioMatricula)">InicioMatricula</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.FinalMatricula)">Final Matricula</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.InicioCurso)">Inicio do Curso</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<Element, object>(x => x.FinalCurso)">Final do Curso</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Grade">@context.Grade</MudTd>
         <MudTd DataLabel="Curso">@context.Curso</MudTd>
-        <MudTd DataLabel="Inicio  Matricula">@context.InicioMatricula</MudTd>
-        <MudTd DataLabel="Final Matricula">@context.FinalMatricula</MudTd>
         <MudTd DataLabel="Inicio do Curso">@context.InicioCurso</MudTd>
         <MudTd DataLabel="Final do Curso">@context.FinalCurso</MudTd>
     </RowTemplate>
@@ -53,12 +49,6 @@
         <MudTd DataLabel="Grade">@context.Grade</MudTd>
         <MudTd DataLabel="Curso">
             <MudTextField @bind-Value="context.Curso" Required />
-        </MudTd>
-        <MudTd DataLabel="Inicio da Matricula">
-            <MudTextField @bind-Value="context.InicioMatricula" Required />
-        </MudTd>
-        <MudTd DataLabel="Final da Matricula ">
-            <MudTextField @bind-Value="context.FinalMatricula" Required Min="1" />
         </MudTd>
         <MudTd DataLabel="Inicio do Curso">
             <MudTextField @bind-Value="context.InicioCurso" Required />
@@ -115,13 +105,13 @@
         // Dados locais estáticos para simular o retorno da API
         Elements = new List<Element>
         {
-            new Element { Grade = "2026A - 1", Curso = "5478 - Doutorado em Psicologia", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
-            new Element { Grade = "2026A - 1", Curso = "5479 - Doutorado em Ciencias Ambientas",  InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028"},
-            new Element { Grade = "2026A - 1", Curso = "5496 - Doutorado em Desenvolvimento Local", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
-            new Element { Grade = "2026A - 1", Curso = "2456 - Doutorado em Serviço Social", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
-            new Element { Grade = "2026A - 1", Curso = "5489 - Mestrado em Biotecnologia", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
-            new Element { Grade = "2026A - 1", Curso = "3678 - Mestrado em Psicologia", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028"},
-            new Element { Grade = "2026A - 1", Curso = "3648 - Mestrado em Serviço Social", InicioMatricula = "07-02-2026", FinalMatricula = "10/02/2026", InicioCurso = "07/02/2026",FinalCurso="07-02-2028"}
+            new Element { Grade = "2026A - 1", Curso = "5478 - Doutorado em Psicologia",  InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "5479 - Doutorado em Ciencias Ambientas",  InicioCurso = "07/02/2026",FinalCurso="07-02-2028"},
+            new Element { Grade = "2026A - 1", Curso = "5496 - Doutorado em Desenvolvimento Local", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "2456 - Doutorado em Serviço Social", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "5489 - Mestrado em Biotecnologia", InicioCurso = "07/02/2026",FinalCurso="07-02-2028" },
+            new Element { Grade = "2026A - 1", Curso = "3678 - Mestrado em Psicologia", InicioCurso = "07/02/2026",FinalCurso="07-02-2028"},
+            new Element { Grade = "2026A - 1", Curso = "3648 - Mestrado em Serviço Social",  InicioCurso = "07/02/2026",FinalCurso="07-02-2028"}
 
 };
     }
@@ -160,8 +150,7 @@
     {
         ((Element)element).Grade = elementBeforeEdit.Grade;
         ((Element)element).Curso = elementBeforeEdit.Curso;
-        ((Element)element).InicioMatricula = elementBeforeEdit.InicioMatricula;
-        ((Element)element).FinalMatricula = elementBeforeEdit.FinalMatricula;
+ 
         ((Element)element).InicioCurso = elementBeforeEdit.InicioCurso;
         ((Element)element).FinalCurso = elementBeforeEdit.FinalCurso;
         AddEditionEvent($"RowEditCancel event: Editing of Element {((Element)element).Grade} canceled");
@@ -173,10 +162,7 @@
             return true;
         if (element.Curso.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (element.InicioMatricula.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if ($"{element.FinalMatricula} {element.Grade} {element.FinalMatricula}".Contains(searchString))
-            return true;
+       
         if ($"{element.InicioCurso} {element.Grade} {element.InicioCurso}".Contains(searchString))
             return true;
         if ($"{element.FinalCurso} {element.Grade} {element.FinalCurso}".Contains(searchString))
